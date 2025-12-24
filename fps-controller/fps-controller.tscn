@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://djooyxuxkvrn7"]
+
+[ext_resource type="Script" uid="uid://dfo74shvx7vry" path="res://fps-controller/fps_controller.gd" id="1_n5717"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ritoy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s8prd"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ww70i"]
+
+[sub_resource type="TextMesh" id="TextMesh_n5717"]
+text = "V"
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_n5717")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0899757, 0)
+shape = SubResource("CapsuleShape3D_ritoy")
+
+[node name="WorldModel" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.110626, 0)
+layers = 2
+mesh = SubResource("CapsuleMesh_s8prd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(0.5307943, 0, 0, 0, 0.16564113, 0, 0, 0, 0.5307943, 0, 2.2126288, 0)
+layers = 2
+mesh = SubResource("CylinderMesh_ww70i")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(1.0322852, 0, 0, 0, 0.010216258, 0, 0, 0, 1.0322852, 0, 2.0399938, 0)
+layers = 2
+mesh = SubResource("CylinderMesh_ww70i")
+skeleton = NodePath(".")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(3.116758, 0, 0, 0, -0.026328353, -3.1166468, 0, 3.1166468, -0.026328353, 0, 2.7720892, 0)
+layers = 2
+mesh = SubResource("TextMesh_n5717")
+skeleton = NodePath("")
+
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6406798, 0)
+
+[node name="Camera3D" type="Camera3D" parent="head"]
+unique_name_in_owner = true
+cull_mask = 1048573
