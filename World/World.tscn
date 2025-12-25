@@ -1,9 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4mirk5j5kavf"]
+[gd_scene load_steps=8 format=3 uid="uid://c4mirk5j5kavf"]
 
 [ext_resource type="PackedScene" uid="uid://djooyxuxkvrn7" path="res://fps-controller/fps-controller.tscn" id="1_folwd"]
+[ext_resource type="Texture2D" uid="uid://c4rb67kbottbs" path="res://Images/kloppenheim_06_puresky_4k.exr" id="1_y6flb"]
 
-[sub_resource type="Environment" id="Environment_folwd"]
-background_color = Color(0.34901962, 1, 1, 0)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y6flb"]
+panorama = ExtResource("1_y6flb")
+energy_multiplier = 0.25
+
+[sub_resource type="Sky" id="Sky_mlekv"]
+sky_material = SubResource("PanoramaSkyMaterial_y6flb")
+
+[sub_resource type="Environment" id="Environment_il6x7"]
+background_mode = 2
+sky = SubResource("Sky_mlekv")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04mge"]
+albedo_texture = ExtResource("1_y6flb")
 
 [sub_resource type="Curve3D" id="Curve3D_folwd"]
 _data = {
@@ -15,7 +29,7 @@ point_count = 2
 [node name="World" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_folwd")
+environment = SubResource("Environment_il6x7")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.24999999, -0.24999999, 0.8080126, 0.5334937, -0.43301272, 0.39951906, -0.8080127, 0, 12, 0)
@@ -73,6 +87,7 @@ transform = Transform3D(-2.8830004, 0, 2.5203994e-07, 0, 9.610002, 0, -2.5203988
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Platforms"]
 transform = Transform3D(-2.8830004, 0, 2.5203994e-07, 0, 9.610002, 0, -2.5203988e-07, 0, -2.8830009, -14.399998, -5.95, -12.349998)
+material_override = SubResource("StandardMaterial3D_04mge")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Platforms"]
 transform = Transform3D(8.311691, 0, -1.4532626e-06, 0, 18.470425, 0, 1.4532623e-06, 0, 8.311694, -32.416798, -9.299503, -33.521957)

@@ -10,7 +10,7 @@ extends CharacterBody3D
 
 # Ground movement
 @export var walk_speed := 10.0
-@export var sprint_speed := 15.0
+@export var sprint_speed := 20.0
 @export var ground_accel := 15.0
 @export var ground_decel := 10.0
 @export var ground_friction := 10.0
@@ -20,13 +20,14 @@ extends CharacterBody3D
 @export var air_accel := 800.0
 @export var air_move_speed := 500.0
 
-@export var extraJumps := 1
+@export var extraJumps := 2
+var jumpsRemaining := extraJumps
 
 var wish_dir := Vector3.ZERO # Store the desired movement direction
 
 # No Clip
 var cam_aligned_wish_dir := Vector3.ZERO
-var noclip_speed_mult := 2.0
+var noclip_speed_mult := 2.5
 var noclip := false
 
 
@@ -57,7 +58,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event is InputEventMouseMotion:
 			rotate_y(-event.relative.x * look_sensitivity)
 			%Camera3D.rotate_x(-event.relative.y * look_sensitivity)
-			%Camera3D.rotation.x = clamp(%Camera3D.rotation.x, deg_to_rad(-90), deg_to_rad(90)) # This makes sure the player cannot break their neck
+			# This makes sure the player cannot break their neck
+			%Camera3D.rotation.x = clamp(%Camera3D.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 
 # This function is called every frame. Delta is time since last frame.
@@ -140,6 +142,11 @@ func _handle_air_physics(delta) -> void:
 			self.motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED
 		clip_velocity(get_wall_normal(), 1.0, delta)
 
+	# Air jumps
+	if jumpsRemaining > 0 and Input.is_action_just_pressed("jump"):
+		self.velocity.y = jump_velocity
+		jumpsRemaining -= 1
+
 
 # self apparent
 func _handle_ground_physics(delta) -> void:
@@ -160,6 +167,8 @@ func _handle_ground_physics(delta) -> void:
 	if self.velocity.length() > 0:
 		new_speed /= self.velocity.length()
 	self.velocity *= new_speed
+
+	jumpsRemaining = extraJumps # Reset jumps on landing
 
 
 # hqandles physics every frame
