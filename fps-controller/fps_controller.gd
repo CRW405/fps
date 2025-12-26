@@ -30,6 +30,11 @@ var cam_aligned_wish_dir := Vector3.ZERO
 var noclip_speed_mult := 2.5
 var noclip := false
 
+# smooth stairs
+const MAX_STEP_HEIGHT = 0.5
+var _snapped_to_stairs_last_frame := false
+var _last_frame_was_on_floor := -INF
+
 
 # Get if the player is walking or running
 func get_move_speed() -> float:
@@ -66,6 +71,19 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	pass
 
+
+func _snap_down_to_stairs_check() -> void:
+	var did_snap := false
+	var was_on_floor_last_frame = Engine.get_physics_frames() == _last_frame_was_on_floor
+
+	if not is_on_floor() and velocity.y <= 0 and (was_on_floor_last_frame or _snapped_to_stairs_last_frame):
+		var body_test_result = PhysicsTestMotionResult3D.new()
+		if _run_body_test_motion(self.global_transform, Vector3(0,-MAX_STEP_HEIGHT,0), body_test_result):
+			var translate_y = body_test_result.get_travel().y
+			self.position.y += translate_y
+			apply_floor_snap()
+			did_snap = true
+	_snapped_to_stairs_last_frame = did_snap
 
 # Its in the name
 func _handle_noclip(delta) -> bool:
@@ -106,13 +124,21 @@ func clip_velocity (normal : Vector3, overbounce : float, delta : float) -> void
 		self.velocity -= normal * adjust
 
 
-# Also for surfing
+# Also for surfing, semantically named
 func is_surface_too_steep(normal : Vector3) -> bool:
 	# This calculates the maximum slope angle dot product based on the floor max angle
-	var max_slope_ang_dot = Vector3(0,1,0).rotated(Vector3(1,0,0), self.floor_max_angle).dot(Vector3(0,1,0))
-	if normal.dot(Vector3(0,1,0)) < max_slope_ang_dot:
-		return true
-	return false
+	return normal.angle_to(Vector3.UP) > self.floor_max_angle
+
+
+# For smooth movement on stairs 
+# Works by using a builtin function to see if future movement in a direction will collide
+# and returns true if it will
+func _run_body_test_motion(from : Transform3D, motion : Vector3, result = null) -> bool:
+	if not result: result = PhysicsTestMotionResult3D.new()
+	var params = PhysicsTestMotionParameters3D.new()
+	params.from = from
+	params.motion = motion
+	return PhysicsServer3D.body_test_motion(self.get_rid(), params, result)
 
 
 # Its in the name
@@ -173,6 +199,8 @@ func _handle_ground_physics(delta) -> void:
 
 # hqandles physics every frame
 func _physics_process(delta: float) -> void:
+	if is_on_floor(): _last_frame_was_on_floor = Engine.get_physics_frames()
+
 	var input_dir = Input.get_vector("left", "right", "up", "down").normalized()
 
 	wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)
@@ -187,5 +215,8 @@ func _physics_process(delta: float) -> void:
 			_handle_air_physics(delta)
 
 		move_and_slide()
+		_snap_down_to_stairs_check()
 
 # https://www.youtube.com/playlist?list=PLbuK0gG93AsHID1DDD1nt4YHcdOmJvWW1
+#
+# Bookmark: https://youtu.be/Tb-R3l0SQdc?list=PLbuK0gG93AsHID1DDD1nt4YHcdOmJvWW1&t=963

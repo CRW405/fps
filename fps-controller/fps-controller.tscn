@@ -24,7 +24,8 @@ emission = Color(0, 1, 0, 1)
 emission_energy_multiplier = 25.07
 
 [sub_resource type="TextMesh" id="TextMesh_ww70i"]
-text = "Balls"
+text = "Player
+"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tk888"]
 albedo_color = Color(0, 0, 0, 1)
@@ -107,3 +108,10 @@ material = SubResource("StandardMaterial3D_ww70i")
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.8808384, 0)
 height = 0.13964844
 material = SubResource("StandardMaterial3D_ffd1m")
+
+[node name="StairsAheadRayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8320191, -0.9731936)
+target_position = Vector3(0, -0.55, 0)
+
+[node name="StairsBelowRayCast3D2" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.75, 0)

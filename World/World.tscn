@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4mirk5j5kavf"]
+[gd_scene load_steps=11 format=3 uid="uid://c4mirk5j5kavf"]
 
 [ext_resource type="PackedScene" uid="uid://djooyxuxkvrn7" path="res://fps-controller/fps-controller.tscn" id="1_folwd"]
 [ext_resource type="Texture2D" uid="uid://c4rb67kbottbs" path="res://Images/kloppenheim_06_puresky_4k.exr" id="1_y6flb"]
+[ext_resource type="PackedScene" uid="uid://bak8ltrhbmlv5" path="res://tutorial/utils/CSGStairMaker3D.tscn" id="2_mlekv"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y6flb"]
 panorama = ExtResource("1_y6flb")
@@ -85,6 +86,22 @@ material = SubResource("StandardMaterial3D_y6flb")
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, -0.4, -0.4)
 operation = 2
 material = SubResource("StandardMaterial3D_y6flb")
+
+[node name="CSGStairMaker3D" parent="Props" instance=ExtResource("2_mlekv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, -1.4156103e-07, -5.0499997)
+size = Vector3(1, 1, 5.7000003)
+
+[node name="CSGStairMaker3D2" parent="Props" instance=ExtResource("2_mlekv")]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 14.95, 0.8699999, -5.0499997)
+size = Vector3(1.7, 1.5, 5.7000003)
+
+[node name="CSGStairMaker3D3" parent="Props" instance=ExtResource("2_mlekv")]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 16.65, 1.77, -5.0499997)
+size = Vector3(1.7, 1.5, 5.7000003)
+
+[node name="CSGStairMaker3D4" parent="Props" instance=ExtResource("2_mlekv")]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 18.35, 2.67, -5.0499997)
+size = Vector3(1.7, 1.5, 5.7000003)
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("1_folwd")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -6, 0, -5)
