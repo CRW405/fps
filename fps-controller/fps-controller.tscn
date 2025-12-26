@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://djooyxuxkvrn7"]
+[gd_scene load_steps=12 format=3 uid="uid://djooyxuxkvrn7"]
 
 [ext_resource type="Script" uid="uid://dfo74shvx7vry" path="res://fps-controller/fps_controller.gd" id="1_n5717"]
 
@@ -8,8 +8,31 @@
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ww70i"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n5717"]
+albedo_color = Color(1, 0, 0.52156866, 1)
+emission_enabled = true
+emission = Color(1, 0, 0.5647059, 1)
+emission_energy_multiplier = 16.0
+
 [sub_resource type="TextMesh" id="TextMesh_n5717"]
 text = "V"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s8prd"]
+albedo_color = Color(0, 1, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+emission_energy_multiplier = 25.07
+
+[sub_resource type="TextMesh" id="TextMesh_ww70i"]
+text = "Balls"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tk888"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_n5717"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ww70i"]
+albedo_color = Color(1, 0.5647059, 0.047058824, 1)
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 script = ExtResource("1_n5717")
@@ -22,28 +45,36 @@ shape = SubResource("CapsuleShape3D_ritoy")
 [node name="WorldModel" type="Node3D" parent="."]
 unique_name_in_owner = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldModel"]
+[node name="Body" type="MeshInstance3D" parent="WorldModel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.110626, 0)
 layers = 2
 mesh = SubResource("CapsuleMesh_s8prd")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="WorldModel"]
-transform = Transform3D(0.5307943, 0, 0, 0, 0.16564113, 0, 0, 0, 0.5307943, 0, 2.2126288, 0)
-layers = 2
-mesh = SubResource("CylinderMesh_ww70i")
-skeleton = NodePath("")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="WorldModel"]
+[node name="Hat" type="MeshInstance3D" parent="WorldModel"]
 transform = Transform3D(1.0322852, 0, 0, 0, 0.010216258, 0, 0, 0, 1.0322852, 0, 2.0399938, 0)
 layers = 2
 mesh = SubResource("CylinderMesh_ww70i")
 skeleton = NodePath(".")
+surface_material_override/0 = SubResource("StandardMaterial3D_n5717")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="WorldModel"]
-transform = Transform3D(3.116758, 0, 0, 0, -0.026328353, -3.1166468, 0, 3.1166468, -0.026328353, 0, 2.7720892, 0)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WorldModel/Hat"]
+transform = Transform3D(0.5141935, 0, 0, 0, 16.213484, 0, 0, 0, 0.5141935, 0, 16.898071, 0)
 layers = 2
+mesh = SubResource("CylinderMesh_ww70i")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_n5717")
+
+[node name="DoodlebBob" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(3.116758, 0, 0, 0, -0.026328353, -3.1166468, 0, 3.1166468, -0.026328353, 0, 2.7720892, 0)
 mesh = SubResource("TextMesh_n5717")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_s8prd")
+
+[node name="Face" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(-1.7648472, 0, 8.7422784e-08, 0, 1.87443, 0, -1.5428782e-07, 0, -1, 0, 1.6425084, -0.49537718)
+layers = 2
+mesh = SubResource("TextMesh_ww70i")
+surface_material_override/0 = SubResource("StandardMaterial3D_tk888")
 
 [node name="head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6406798, 0)
@@ -51,3 +82,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6406798, 0)
 [node name="Camera3D" type="Camera3D" parent="head"]
 unique_name_in_owner = true
 cull_mask = 1048573
+
+[node name="Nose" type="MeshInstance3D" parent="head/Camera3D"]
+transform = Transform3D(0.099999964, 0, 0, 0, -1.7484554e-08, 0.099999964, 0, -0.39999998, -4.3711372e-09, 0, -0.30000007, -0.5564656)
+mesh = SubResource("PrismMesh_n5717")
+
+[node name="Cigarette" type="CSGCylinder3D" parent="head/Camera3D"]
+transform = Transform3D(0.031657916, 0.04225404, -0.0033624428, 0, 0.041277416, 0.03191472, 0.011007108, -0.121528275, 0.009670836, 0.14408268, -0.38716877, -0.6702445)
+
+[node name="Cigarette2" type="CSGCylinder3D" parent="head/Camera3D/Cigarette"]
+transform = Transform3D(1.0000001, 0, 0, 0, 0.37566924, 0, 0, 0, 1.0000001, 0, -1.3735085, 0)
+material = SubResource("StandardMaterial3D_ww70i")

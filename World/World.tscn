@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4mirk5j5kavf"]
+[gd_scene load_steps=10 format=3 uid="uid://c4mirk5j5kavf"]
 
 [ext_resource type="PackedScene" uid="uid://djooyxuxkvrn7" path="res://fps-controller/fps-controller.tscn" id="1_folwd"]
 [ext_resource type="Texture2D" uid="uid://c4rb67kbottbs" path="res://Images/kloppenheim_06_puresky_4k.exr" id="1_y6flb"]
@@ -15,6 +15,17 @@ background_mode = 2
 sky = SubResource("Sky_mlekv")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mlekv"]
+albedo_color = Color(1, 1, 0, 1)
+refraction_scale = 0.03
+grow_amount = 0.266
+proximity_fade_distance = 0.01
+stencil_flags = 2
+stencil_reference = 7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y6flb"]
+albedo_color = Color(0.38431373, 0.47058824, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04mge"]
 albedo_texture = ExtResource("1_y6flb")
@@ -40,6 +51,40 @@ use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Props"]
 transform = Transform3D(3.1000001, 0, 0, 0, 3.1000001, 0, 0, 0, 3.1000001, 6, 0.5, 6.5)
+
+[node name="Cheese" type="CSGCombiner3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.2, -0.10000014, -4.4)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Props/Cheese"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 0.6, 0, -1, -2.6226834e-08, 0, 0.099999994, 0)
+calculate_tangents = false
+polygon = PackedVector2Array(0, 0, 0.4, 1, 1, 0)
+material = SubResource("StandardMaterial3D_mlekv")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Props/Cheese"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.1, 0)
+operation = 2
+material = SubResource("StandardMaterial3D_y6flb")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="Props/Cheese"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.3, -0.1, -0.8)
+operation = 2
+material = SubResource("StandardMaterial3D_y6flb")
+
+[node name="CSGSphere3D3" type="CSGSphere3D" parent="Props/Cheese"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.6, 0.1, -0.7)
+operation = 2
+material = SubResource("StandardMaterial3D_y6flb")
+
+[node name="CSGSphere3D4" type="CSGSphere3D" parent="Props/Cheese"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.90000004, 0, -0.19999999)
+operation = 2
+material = SubResource("StandardMaterial3D_y6flb")
+
+[node name="CSGSphere3D5" type="CSGSphere3D" parent="Props/Cheese"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, -0.4, -0.4)
+operation = 2
+material = SubResource("StandardMaterial3D_y6flb")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("1_folwd")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -6, 0, -5)
