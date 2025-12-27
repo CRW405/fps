@@ -15,6 +15,12 @@ extends CharacterBody3D
 @export var ground_decel := 10.0
 @export var ground_friction := 10.0
 
+# Dashing
+@export var dashes := 2
+var dashesRemaining := dashes
+@export var dashLength := 200.0
+@export var dashCooldown := 1.0
+
 # Air movement
 @export var air_cap := 2.0
 @export var air_accel := 800.0
@@ -235,6 +241,21 @@ func _physics_process(delta: float) -> void:
 
 	wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 	cam_aligned_wish_dir = %Camera3D.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)
+
+	# Dashing
+	if Input.is_action_just_pressed("dash") and dashesRemaining > 0:
+		dashesRemaining -= 1
+		var dash_dir = wish_dir
+		dash_dir.y = 0
+		dash_dir = dash_dir.normalized()
+		var stored_velocity = velocity
+		velocity = dash_dir * dashLength # Temporary high velocity for one frame
+		move_and_slide()
+		velocity = stored_velocity  # Restore original velocity
+		
+	
+	if is_on_floor():
+		dashesRemaining = dashes
 
 	if not _handle_noclip(delta):
 		if is_on_floor() or _snapped_to_stairs_last_frame:
