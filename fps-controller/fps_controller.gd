@@ -1,5 +1,10 @@
 extends CharacterBody3D
 
+## TODO:
+# - crouch
+# - sliding
+# - mantleing
+# - wall bouncing
 
 # Settings
 @export var look_sensitivity : float = 0.006
@@ -50,7 +55,7 @@ func get_move_speed() -> float:
 # setup
 func _ready():
 	# Hide player model from own view
-	for child in %WorldModel.find_children("*", "VisualInstance3d"): 
+	for child in %WorldModel.find_children("*", "VisualInstance3d"):
 		child.set_layer_mask_value(1, false)
 		child.set_layer_mask_value(2, true)
 
@@ -63,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	# If the user clicks escape, stop capturing inputs
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	
+
 	# Translate mouse movement into camera rotation
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
@@ -133,7 +138,7 @@ func _handle_noclip(delta) -> bool:
 	if not noclip: return false
 
 	var speed = get_move_speed() * noclip_speed_mult
-	
+
 	self.velocity = cam_aligned_wish_dir * speed
 	global_position += self.velocity * delta
 
@@ -166,7 +171,7 @@ func is_surface_too_steep(normal : Vector3) -> bool:
 	return normal.angle_to(Vector3.UP) > self.floor_max_angle
 
 
-# For smooth movement on stairs 
+# For smooth movement on stairs
 # Works by using a builtin function to see if future movement in a direction will collide
 # and returns true if it will
 func _run_body_test_motion(from : Transform3D, motion : Vector3, result = null) -> bool:
@@ -181,13 +186,13 @@ func _run_body_test_motion(from : Transform3D, motion : Vector3, result = null) 
 func _handle_air_physics(delta) -> void:
 	# Gets the global gravity and applies it to the player
 	self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
-	
+
 	# Get current speed in the desired direction
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 
 	# Cap the speed in the desired direction
 	var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
-	
+
 	# Accelerate towards the desired direction until capped
 	var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
 	if add_speed_till_cap > 0:
@@ -219,7 +224,7 @@ func _handle_ground_physics(delta) -> void:
 		var accel_speed = ground_accel * delta * get_move_speed()
 		accel_speed = min(accel_speed, add_speed_till_cap)
 		self.velocity += wish_dir * accel_speed
-	
+
 	# gets rid of residual velocity when no input is given
 	var control = max(self.velocity.length(), ground_decel)
 	# calculates the amount of speed to drop due to friction
@@ -252,8 +257,8 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * dashLength # Temporary high velocity for one frame
 		move_and_slide()
 		velocity = stored_velocity  # Restore original velocity
-		
-	
+
+
 	if is_on_floor():
 		dashesRemaining = dashes
 
