@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://djooyxuxkvrn7"]
 
 [ext_resource type="Script" uid="uid://dfo74shvx7vry" path="res://fps-controller/fps_controller.gd" id="1_n5717"]
+[ext_resource type="PackedScene" path="res://fps-controller/debug_ui.tscn" id="2_debugui"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ritoy"]
 
@@ -122,3 +123,5 @@ target_position = Vector3(0, -0.75, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6640382, -0.48060548)
 target_position = Vector3(0, 0.55, -0.55)
+
+[node name="DebugUI" parent="." instance=ExtResource("2_debugui")]
