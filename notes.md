@@ -4,12 +4,6 @@
 
 ### Main Priority
 
-- Wall bouncing
-- Dashing
-- Crouching
-- Sliding
-- Ledge Grabbing
-
 - Finish Source-Like Tutorial
 
 ### Secondary Priorities
