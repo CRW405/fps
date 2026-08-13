@@ -105,6 +105,8 @@ size = Vector3(1.7, 1.5, 5.7000003)
 
 [node name="CharacterBody3D" parent="." unique_id=1362721088 instance=ExtResource("1_folwd")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -6, 0, -5)
+extra_jumps = 2
+slide_friction = 1.0
 
 [node name="Floor" type="CSGCombiner3D" parent="." unique_id=422134594]
 use_collision = true
@@ -206,6 +208,14 @@ size = Vector3(1, 1.3000001, 1.8000001)
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Platforms2" unique_id=453727410]
 transform = Transform3D(8.311691, 0, -1.4532626e-06, 0, 18.470425, 0, 1.4532623e-06, 0, 8.311694, -77.5168, 12.171061, 4.8027077)
+size = Vector3(1, 1.3000001, 1.8000001)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Platforms2" unique_id=1117415001]
+transform = Transform3D(8.028479, -4.780497, -1.4285037e-06, 2.1512234, 17.841059, -1.88066e-07, 1.428503e-06, -4.1792427e-07, 8.311693, -111.616806, 9.671061, 4.8027)
+size = Vector3(1, 1.3000001, 1.8000001)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Platforms2" unique_id=1989279426]
+transform = Transform3D(8.028479, 4.780498, -1.4285033e-06, -2.151224, 17.84106, 1.88066e-07, 1.428503e-06, 4.179244e-07, 8.311694, -92.8168, 10.671061, 4.8027077)
 size = Vector3(1, 1.3000001, 1.8000001)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Platforms2" unique_id=2029975973]
